@@ -115,7 +115,7 @@ def pawn(from_row, from_column, to_row, to_column, player, board):
         return False
 
 
-def horse_rule(from_row, from_column, to_row, to_column, board):
+def horse(from_row, from_column, to_row, to_column, board):
     # All possible moves of a horse
     squares = [(2, 1), (1, 2), (-1, 2), (-2, 1), (-2, -1), (-1, -2), (1, -2), (2, -1)]
 
@@ -141,19 +141,12 @@ def attack_friend(from_row, from_column, to_row, to_column, board):
     else:
         return True
 
-
-def valid_movement(from_row, from_column, to_row, to_column, piece, board):
-    board[from_row][from_column] = None
-    board[to_row][to_column] = piece
-    return True
-
-
 @app.route('/move', methods=['POST'])
 def http_move():
     global player, board
 
     attack_friend_movement = False
-    valid_movements = False
+    valid_movement = False
 
     # These two lines get the "from" and "to" parameters from the URL.
     from_square = request.args['from']
@@ -178,27 +171,19 @@ def http_move():
     if attack_friend_movement:
         return 'You cannot attack your friend', 422
 
-    if piece[0] == 'h':
-        valid_movement_horse = horse_rule(from_row, from_column, to_row, to_column, board)
-
-        # if movement of horse is valid:
-        if valid_movement_horse:
-            valid_movements = valid_movement(from_row, from_column, to_row, to_column, piece, board)
 
     if piece[0] == 'p':
-        valid_movement_pawn = pawn(from_row, from_column, to_row, to_column, player, board)
-
-        if valid_movement_pawn:
-            valid_movements = valid_movement(from_row, from_column, to_row, to_column, piece, board)
-
-    if piece[0] == 'r':
-        valid_movement_rook = rook(from_row, from_column, to_row, to_column, board)
-        if valid_movement_rook:
-            valid_movements = valid_movement(from_row, from_column, to_row, to_column, piece, board)
-
-    # player: The color of the player whose turn it is now. This should be black if it was white before, and white if it was black before.
-    # if movement is valid then next player should play:
-    if valid_movements:
+        valid_movement = pawn(from_row, from_column, to_row, to_column, player, board)
+    elif piece[0] == 'h':
+        valid_movement = horse(from_row, from_column, to_row, to_column, board)
+    elif piece[0] == 'r':
+        valid_movement = rook(from_row, from_column, to_row, to_column, board)
+    
+    if valid_movement:
+        board[from_row][from_column] = None
+        board[to_row][to_column] = piece
+        # player: The color of the player whose turn it is now. This should be black if it was white before, and white if it was black before.
+        # if movement is valid then next player should play:
         if player == 'white':
             player = 'black'
         elif player == 'black':
