@@ -1,5 +1,5 @@
 import unittest
-from server import translate_notation, http_move, attack_friend, pawn
+from server import pawn
 
 
 class ChessTest(unittest.TestCase):
