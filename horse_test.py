@@ -1,6 +1,5 @@
 import unittest
-from server import horse_rule, translate_notation, http_move, attack_friend, pawn
-
+from server import horse
 
 class ChessTest(unittest.TestCase):
     
