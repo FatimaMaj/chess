@@ -1,5 +1,5 @@
 import unittest
-from server import horse
+from server import horse, attack_friend
 
 class ChessTest(unittest.TestCase):
     
@@ -12,7 +12,7 @@ class ChessTest(unittest.TestCase):
             [None, None, None, None],  # 3
 
         ]
-        valid = horse_rule(0, 0, 1, 2, board)
+        valid = horse(0, 0, 1, 2, board)
         self.assertEqual(valid, True)
 
     def test_horse_diagonal(self):
@@ -24,7 +24,7 @@ class ChessTest(unittest.TestCase):
             [None, None, None, None],  # 3
 
         ]
-        valid = horse_rule(0, 0, 1, 1, board)
+        valid = horse(0, 0, 1, 1, board)
         self.assertEqual(valid, False)
 
     def test_attack_friend(self):
