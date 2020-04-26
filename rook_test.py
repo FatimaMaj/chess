@@ -11,8 +11,8 @@ class ChessTest(unittest.TestCase):
             ['pw', None, None, None],  # 2
             ['rw', None, None, None],  # 3
         ]
-        invalid = rook(3, 0, 1, 0, board)
-        self.assertEqual(invalid, False)
+        is_valid = rook(3, 0, 1, 0, board)
+        self.assertEqual(is_valid, False)
     
     def test_invalid_vertical_movement_jump_from_piece(self):
         board = [
@@ -22,8 +22,8 @@ class ChessTest(unittest.TestCase):
             [None, None, None, None],  # 2
             ['rw', 'rb', None, None],  # 3
         ]
-        invalid = rook(3, 0, 3, 2, board)
-        self.assertEqual(invalid, False)
+        is_valid = rook(3, 0, 3, 2, board)
+        self.assertEqual(is_valid, False)
     
     def test_invalid_movement_Diagonal(self):
         board = [
@@ -33,8 +33,8 @@ class ChessTest(unittest.TestCase):
             [None, None, None, None],  # 2
             ['rw', None, None, None],  # 3
         ]
-        invalid = rook(3, 0, 1, 2, board)
-        self.assertEqual(invalid, False)
+        is_valid = rook(3, 0, 1, 2, board)
+        self.assertEqual(is_valid, False)
     
     def test_attack_enemy(self):
         board = [
@@ -44,8 +44,8 @@ class ChessTest(unittest.TestCase):
             [None, None, None, None],  # 2
             ['rw', None, None, None],  # 3
         ]
-        valid = rook(3, 0, 0, 0, board)
-        self.assertEqual(valid, True)
+        is_valid = rook(3, 0, 0, 0, board)
+        self.assertEqual(is_valid, True)
 
         
 unittest.main()

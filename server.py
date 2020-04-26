@@ -55,17 +55,13 @@ def translate_notation(board_square):
 
 
 def rook(from_row, from_column, to_row, to_column, board):
-    #if from_row == to_row or from_column == to_column:
-    rows_of_rook = []
-    column_of_rook = []
-    square_in_between = [] # squares in between Origin and Destination of movement
-
     # (horizontal movement): rook can moves in these columns 
     if from_row == to_row:
         # Extract a row from a multi-dimensional array (board)
         rows_of_rook = board[from_row]
         if from_column < to_column:
             #+1 is to not get the square that is player on it
+            # square_in_between -> squares in between Origin and Destination of movement
             square_in_between = rows_of_rook[from_column+1 : to_column]
         else:
             square_in_between = rows_of_rook[to_column+1 : from_column]
@@ -78,12 +74,13 @@ def rook(from_row, from_column, to_row, to_column, board):
             square_in_between = column_of_rook[from_row+1 : to_row]
         else:
             square_in_between = column_of_rook[to_row+1 : from_row]
-    else: square_in_between='It is empty'
+    else:
+        return False
     # if all the element in the square_in_between is None. In the other words if there is any piech in the way of rook
-    if all(piece is None for piece in square_in_between) or square_in_between is None:
+    if all(piece is None for piece in square_in_between):
         return True
     else:
-       return False
+        return False
 
 
 def pawn(from_row, from_column, to_row, to_column, player, board):
