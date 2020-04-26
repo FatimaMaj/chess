@@ -1,4 +1,3 @@
-const host = 'localhost:5000';
 let from = null;
 let waiting = false;
 let previousRows = null;
@@ -156,24 +155,10 @@ function pieceColor(shorthand) {
     return color;
 }
 
-async function start() {
-    createChessboard();
-
-    let response = null;
-    try {
-        response = await fetch('http://' + host + '/state');
-    }
-    catch(error) {
-        showMessage('Network error: ' + error.message);
-    }
-
-    if (response !== null) await handleResponse(response, 'Welcome!');
-}
-
 async function makeMove(from, to) {
     let response = null;
     try {
-        response = await fetch('http://' + host + '/move?from=' + from + '&to=' + to, {
+        response = await fetch(location.origin + '/move?from=' + from + '&to=' + to, {
             method: 'POST'
         });
     }
@@ -188,9 +173,8 @@ async function handleResponse(response, message) {
     if (response.ok) {
         try {
             const state = await response.json();
-            document.getElementById('player-color').textContent = capitalize(state.player);
             showMessage(message);
-            fillChessboard(state.board);
+            handleNewState(state);
         }
         catch(error) {
             showMessage('Error: ' + error.message);
@@ -200,6 +184,11 @@ async function handleResponse(response, message) {
         const text = await response.text();
         showMessage('Error: ' + text);
     }
+}
+
+function handleNewState(state) {
+    document.getElementById('player-color').textContent = capitalize(state.player);
+    fillChessboard(state.board);
 }
 
 function showMessage(text) {
@@ -212,6 +201,37 @@ function onShowPositionsChange(show) {
 
 function capitalize(text) {
     return text[0].toUpperCase() + text.slice(1);
+}
+
+async function start() {
+    createChessboard();
+
+    let response = null;
+    try {
+        response = await fetch(location.origin + '/state');
+    }
+    catch(error) {
+        showMessage('Network error: ' + error.message);
+    }
+
+    if (response !== null) await handleResponse(response, 'Welcome!');
+
+    const pollFrequency = 1000;
+    let latestPoll = Date.now() / 1000;
+    setTimeout(async function poll() {
+        const timestamp = Date.now() / 1000;
+        const response = await fetch(location.origin + '/state?since=' + latestPoll);
+        try {
+            if (response.ok && response.status !== 304) {
+                const state = await response.json();
+                handleNewState(state);
+            }
+        }
+        finally {
+            setTimeout(poll, pollFrequency);
+        }
+        latestPoll = timestamp;
+    }, pollFrequency);
 }
 
 start();

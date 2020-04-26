@@ -21,7 +21,7 @@
                 "FLASK_ENV": "development"
             },
             "args": [
-                "run"
+                "run",
 				"--no-debugger",
                 "--no-reload"
             ]
