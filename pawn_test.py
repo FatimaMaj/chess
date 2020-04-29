@@ -69,5 +69,31 @@ class ChessTest(unittest.TestCase):
         ]
         valid = pawn(1, 1, 3, 3, 'black', board)
         self.assertEqual(valid, False)
+    
+    def test_black_pawn_one_step(self):
+        board = [
+            # 0     1     2     3
+            [None, None, None, None],  # 0
+            [None, 'pb', None, None],  # 1
+            [None, None, None, None],  # 2
+            [None, None, None, None],  # 3
+            [None, None, None, None],  # 4
+            [None, 'hw', None, None],  # 5
+        ]
+        valid = pawn(1, 1, 2, 1, 'black', board)
+        self.assertEqual(valid, True)
+    
+    def test_black_pawn_two_steps(self):
+        board = [
+            # 0     1     2     3
+            [None, None, None, None],  # 0
+            [None, 'pb', None, None],  # 1
+            [None, None, None, None],  # 2
+            [None, None, None, None],  # 3
+            [None, None, None, None],  # 4
+            [None, 'hw', None, None],  # 5
+        ]
+        valid = pawn(1, 1, 3, 1, 'black', board)
+        self.assertEqual(valid, True)
 
 unittest.main()

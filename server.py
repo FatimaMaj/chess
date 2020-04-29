@@ -178,7 +178,6 @@ def pawn(from_row, from_column, to_row, to_column, player, board):
     # else if player is black:
     # if black pawn is at the first step, can move two steps
     if player == 'black':
-        #empty_between = board[row_white_before_move + 1][to_column] == None
         empty_between = board[row_black_before_move + 1][to_column] == None
         
         if (from_row == row_black_before_move and to_row == row_black_before_move + 2 and
