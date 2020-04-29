@@ -53,6 +53,42 @@ def translate_notation(board_square):
 
     return row, column
 
+def bishop(from_row, from_column, to_row, to_column, board):
+    
+    
+    if abs(to_row - from_row) == abs(to_column - from_column):
+        
+       # inside_board = from_row - 1 >= 0 or from_column - 1 >= 0
+        # direction is 'top_right'
+        if to_row < from_row and to_column > from_column:
+           # direction = 'top_right'
+            while to_row >= 0: # or column == to_column:
+                to_row = from_row - 1
+                to_column = from_column + 1
+                position = board[to_row][to_column]
+        elif to_row < from_row and to_column < from_column:
+            #direction = 'top_left'
+            while inside_board:
+                board[from_row - 1][from_column - 1]
+        elif to_row > from_row and to_column < from_column:
+            #direction = 'bottom_left'
+            while inside_board:
+                board[from_row - 1][from_column - 1]
+        elif to_row > from_row and to_column > from_column:
+            #direction = 'bottom_right'
+            while inside_board:
+                board[from_row + 1][from_column - 1]
+        
+
+        print('valid')
+    #    top_left = board[from_row - 1][from_column - 1]   
+    #    top_right = board[from_row - 1][from_column + 1]
+    #    bottom_right  = board[from_row + 1][from_column - 1]
+    #    bottom_left  = board[from_row - 1][from_column - 1]
+
+        #if to_row == from_row - 1  
+
+
 
 def rook(from_row, from_column, to_row, to_column, board):
     # (horizontal movement): rook can moves in these columns 
@@ -60,7 +96,7 @@ def rook(from_row, from_column, to_row, to_column, board):
         # Extract a row from a multi-dimensional array (board)
         rows_of_rook = board[from_row]
         if from_column < to_column:
-            #+1 is to not get the square that is player on it
+            #+1, is to not get the square that is player on it
             # square_in_between -> squares in between Origin and Destination of movement
             square_in_between = rows_of_rook[from_column+1 : to_column]
         else:
@@ -202,6 +238,8 @@ def http_move():
         valid_movement = horse(from_row, from_column, to_row, to_column, board)
     elif piece[0] == 'r':
         valid_movement = rook(from_row, from_column, to_row, to_column, board)
+    elif piece[0] == 'b':
+        valid_movement = bishop(from_row, from_column, to_row, to_column, board)
     
     if valid_movement:
         board[from_row][from_column] = None
