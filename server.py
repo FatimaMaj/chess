@@ -1,7 +1,13 @@
 # Server
 from flask import Flask, request, render_template
+import json
+import time
 
 app = Flask(__name__)
+
+# We use this variable to keep track of when the latest move was made.
+# It's only needed to figure out when to send changes to the browser, and save bandwidth when nothing has changed.
+latest_move = time.time()
 
 # This variable keeps track of which player's turn it is, so we know which pieces can be moved.
 player = 'white'
@@ -212,7 +218,7 @@ def attack_friend(from_row, from_column, to_row, to_column, board):
 
 @app.route('/move', methods=['POST'])
 def http_move():
-    global player, board
+    global player, board, latest_move
 
     attack_friend_movement = False
     valid_movement = False
@@ -259,6 +265,9 @@ def http_move():
             player = 'black'
         elif player == 'black':
             player = 'white'
+
+        # The purpose of "latest_move" variable is described at the top of the file.
+        latest_move = time.time()
     else: 
         return 'Invalid Movement', 422
 
@@ -269,11 +278,18 @@ def http_move():
 
 
 # If the user reloads the page (or closes it by mistake and reopens), the client will send a request to this endpoint in order to see the current state of the game and put the pieces where they were before the page was reloaded or closed. This function does not need to be changed.
-
-
 @app.route('/state')
 def http_state():
-    return {
-        'player': player,
-        'board': board
-    }
+    if 'since' in request.args:
+        latest_poll = float(request.args['since'])
+    else:
+        latest_poll = None
+
+    if latest_poll is None or latest_move >= latest_poll:
+        return {
+            'player': player,
+            'board': board,
+            'changed': latest_move
+        }
+    else:
+        return 'State has not changed', 304
