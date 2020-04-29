@@ -52,12 +52,18 @@ def translate_notation(board_square):
     column = board_square_column[letter]
     # take the second char of e.g ('A1')
     number = board_square[1]
-
     board_square_row = {'1': 7, '2': 6, '3': 5, '4': 4, '5': 3, '6': 2, '7': 1, '8': 0}
-
     row = board_square_row[number]
-
     return row, column
+
+def queen(from_row, from_column, to_row, to_column, board):
+    valid_rook = rook(from_row, from_column, to_row, to_column, board)
+    valid_bishop = bishop(from_row, from_column, to_row, to_column, board)
+
+    if valid_rook or valid_bishop:
+        return True
+    else: 
+        return False
 
 def bishop(from_row, from_column, to_row, to_column, board):
     is_diagonal = abs(to_row - from_row) == abs(to_column - from_column)
@@ -259,6 +265,8 @@ def http_move():
         valid_movement = rook(from_row, from_column, to_row, to_column, board)
     elif piece[0] == 'b':
         valid_movement = bishop(from_row, from_column, to_row, to_column, board)
+    elif piece[0] == 'q':
+        valid_movement = queen(from_row, from_column, to_row, to_column, board)
     
     if valid_movement:
         board[from_row][from_column] = None
