@@ -96,16 +96,18 @@ def pawn(from_row, from_column, to_row, to_column, player, board):
     move_one_row_down = to_row == from_row + 1
     not_move_horizontally = to_column == from_column
     target_is_none = board[to_row][to_column] == None
+    same_column = from_column == to_column
     adjacent_column = from_column == to_column - 1 or from_column == to_column + 1
+    # len(board) is number of row which is 8
     row_white_before_move = len(board) - 2
     row_black_before_move = 1
 
     ### rules for white pawn
     if player == 'white':
         # if white pawn is at the first step
-        # len(board) is number of row which is 8
-        if from_row == row_white_before_move and to_row == row_white_before_move - 2 and \
-                board[row_white_before_move - 1][to_column] == None:
+        empty_between = board[row_white_before_move - 1][to_column] == None
+        if (from_row == row_white_before_move and to_row == row_white_before_move - 2 and
+                empty_between and same_column):
             return True
 
         # if white pawn is in normal walking
@@ -125,9 +127,9 @@ def pawn(from_row, from_column, to_row, to_column, player, board):
     # else if player is black:
     # if black pawn is at the first step, can move two steps
     if player == 'black':
-        # len(board) -
-        if from_row == row_black_before_move and to_row == row_black_before_move + 2 and \
-                board[row_black_before_move + 1][to_column] == None:
+        empty_between = board[row_white_before_move + 1][to_column] == None
+        if (from_row == row_black_before_move and to_row == row_black_before_move + 2 and
+                empty_between and same_column):
             return True
 
         # if black pawn is in normal walking, can move one step
