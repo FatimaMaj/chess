@@ -59,14 +59,59 @@ def translate_notation(board_square):
 
     return row, column
 
+def bishop(from_row, from_column, to_row, to_column, board):
+    is_diagonal = abs(to_row - from_row) == abs(to_column - from_column)
+    square_in_between = []
+    if is_diagonal:
+        row = from_row
+        column = from_column
+        
+        # while the bishop is in the way until it reaches to distination
+        while row != to_row and column != to_column:
+            # bishop moves toward distination 
+            # direction is 'top_right'
+            if to_row < from_row and to_column > from_column:
+                row = row - 1
+                column = column + 1
+                square_in_between.append(board[row][column])
+            
+            #direction is 'top_left'
+            elif to_row < from_row and to_column < from_column:
+                row = row - 1
+                column = column - 1
+                square_in_between.append(board[row][column])
+            
+            #direction is 'bottom_left'
+            elif to_row > from_row and to_column < from_column:
+                row = row + 1
+                column = column - 1
+                square_in_between.append(board[row][column])
+            
+            #direction is 'bottom_right'
+            elif to_row > from_row and to_column > from_column:
+                row = row + 1
+                column = column + 1
+                square_in_between.append(board[row][column])
+       
+        # square in between except the last element. We don't need the last element which is the destination
+        square_in_between = square_in_between[:-1]
+        if all(square is None for square in square_in_between):
+            return True
+        else:
+            return False
+    # if not diagonal
+    else:
+        return False
 
+
+        
 def rook(from_row, from_column, to_row, to_column, board):
     # (horizontal movement): rook can moves in these columns 
     if from_row == to_row:
         # Extract a row from a multi-dimensional array (board)
         rows_of_rook = board[from_row]
         if from_column < to_column:
-            #+1 is to not get the square that is player on it
+            #+1, is to not get the square that is player on it
             # square_in_between -> squares in between Origin and Destination of movement
             square_in_between = rows_of_rook[from_column+1 : to_column]
         else:
@@ -117,7 +162,7 @@ def pawn(from_row, from_column, to_row, to_column, player, board):
         # Attacking the competitor (white attacking black)
         elif move_one_row_up and adjacent_column and not target_is_none:
             # board[to_row][to_column][1] -> 'pw'; player -> 'white'
-            if (board[to_row][to_column][1] != player[0]):
+            if board[to_row][to_column][1] != player[0]:
                 return True
         else:
             return False
@@ -210,6 +255,8 @@ def http_move():
         valid_movement = horse(from_row, from_column, to_row, to_column, board)
     elif piece[0] == 'r':
         valid_movement = rook(from_row, from_column, to_row, to_column, board)
+    elif piece[0] == 'b':
+        valid_movement = bishop(from_row, from_column, to_row, to_column, board)
     
     if valid_movement:
         board[from_row][from_column] = None
