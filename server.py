@@ -94,26 +94,25 @@ def bishop(from_row, from_column, to_row, to_column, board):
             if to_row < from_row and to_column > from_column:
                 row = row - 1
                 column = column + 1
-                square_in_between.append(board[row][column])
-            
+                
             #direction is 'top_left'
             elif to_row < from_row and to_column < from_column:
                 row = row - 1
                 column = column - 1
-                square_in_between.append(board[row][column])
+                
             
             #direction is 'bottom_left'
             elif to_row > from_row and to_column < from_column:
                 row = row + 1
                 column = column - 1
-                square_in_between.append(board[row][column])
+                
             
             #direction is 'bottom_right'
             elif to_row > from_row and to_column > from_column:
                 row = row + 1
                 column = column + 1
-                square_in_between.append(board[row][column])
-       
+
+            square_in_between.append(board[row][column])    
         # square in between except the last element. We don't need the last element which is the destination
         square_in_between = square_in_between[:-1]
         if all(square is None for square in square_in_between):
