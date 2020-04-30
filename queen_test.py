@@ -1,7 +1,7 @@
 import unittest
 from server import queen
 
-class queenTest(unittest.TestCase):
+class QueenTest(unittest.TestCase):
 
     def test_queen_as_rook(self):
         board = [
@@ -14,7 +14,7 @@ class queenTest(unittest.TestCase):
         is_valid = queen(3, 0, 0, 0, board)
         self.assertEqual(is_valid, True)
 
-    def test_queen_as_boshop(self):
+    def test_queen_as_bishop(self):
         board = [
             # 0     1     2     3
             [None, None, None, None],  # 0
