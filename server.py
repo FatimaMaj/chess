@@ -56,6 +56,21 @@ def translate_notation(board_square):
     row = board_square_row[number]
     return row, column
 
+def king(from_row, from_column, to_row, to_column, board):
+    right = to_row == from_row and to_column == from_column + 1
+    bottom_right = to_row == from_row + 1 and to_column == from_column + 1
+    bottom = to_row == from_row + 1 and to_column == from_column
+    bottom_left = to_row == from_row + 1 and to_column == from_column - 1
+    left = to_row == from_row and to_column == from_column - 1
+    top_left = to_row == from_row -1 and to_column == from_column - 1
+    top = to_row == from_row - 1 and to_column == from_column
+    top_right = to_row == from_row - 1 and to_column == from_column + 1
+    # right  or bottom_right
+    if right or bottom_right or bottom or bottom_left or left or top_left or top or top_right:
+        return True
+    else:
+        return False 
+
 def queen(from_row, from_column, to_row, to_column, board):
     valid_rook = rook(from_row, from_column, to_row, to_column, board)
     valid_bishop = bishop(from_row, from_column, to_row, to_column, board)
@@ -266,6 +281,8 @@ def http_move():
         valid_movement = bishop(from_row, from_column, to_row, to_column, board)
     elif piece[0] == 'q':
         valid_movement = queen(from_row, from_column, to_row, to_column, board)
+    elif piece[0] == 'k':
+        valid_movement = king(from_row, from_column, to_row, to_column, board)
     
     if valid_movement:
         board[from_row][from_column] = None
