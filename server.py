@@ -56,7 +56,7 @@ def translate_notation(board_square):
     row = board_square_row[number]
     return row, column
 
-def king(from_row, from_column, to_row, to_column, board):
+def king(from_row, from_column, to_row, to_column, player, board):
     right = to_row == from_row and to_column == from_column + 1
     bottom_right = to_row == from_row + 1 and to_column == from_column + 1
     bottom = to_row == from_row + 1 and to_column == from_column
@@ -65,11 +65,27 @@ def king(from_row, from_column, to_row, to_column, board):
     top_left = to_row == from_row -1 and to_column == from_column - 1
     top = to_row == from_row - 1 and to_column == from_column
     top_right = to_row == from_row - 1 and to_column == from_column + 1
-    # right  or bottom_right
+   
     if right or bottom_right or bottom or bottom_left or left or top_left or top or top_right:
+        # For every piece on the board:
+        for other_piece_row, row_pieces in enumerate(board):
+            for other_piece_column, piece in enumerate(row_pieces):
+                # If the piece is an enemy.
+                king_color = board[from_row][from_column][1]
+                if piece is not None and piece[1] != king_color:
+                    # If other piece can attack king...
+                    if player == 'white':
+                        other_player = 'black'
+                    else:
+                        other_player = 'white'
+                    can_attack_king = valid_movement(other_piece_row, other_piece_column, to_row, to_column, other_player, board)
+                    # If the enemy can attack us, return false.
+                    if can_attack_king:
+                        return False
+        # If nothing is returned inside the loop, we will get here, and that means no enemy can attack us.
         return True
     else:
-        return False 
+        return False
 
 def queen(from_row, from_column, to_row, to_column, board):
     valid_rook = rook(from_row, from_column, to_row, to_column, board)
@@ -239,6 +255,26 @@ def attack_friend(from_row, from_column, to_row, to_column, board):
     else:
         return True
 
+# This function checks if the piece at from_row/from_column can move to to_row/to_column, based on which type of piece it is.
+def valid_movement(from_row, from_column, to_row, to_column, player, board):
+    # We don't have the piece variable in here but we can easily create it again.
+    piece = board[from_row][from_column]
+
+    if piece[0] == 'p':
+        valid = pawn(from_row, from_column, to_row, to_column, player, board)
+    elif piece[0] == 'h':
+        valid = horse(from_row, from_column, to_row, to_column, board)
+    elif piece[0] == 'r':
+        valid = rook(from_row, from_column, to_row, to_column, board)
+    elif piece[0] == 'b':
+        valid = bishop(from_row, from_column, to_row, to_column, board)
+    elif piece[0] == 'q':
+        valid = queen(from_row, from_column, to_row, to_column, board)
+    elif piece[0] == 'k':
+        valid = king(from_row, from_column, to_row, to_column, player, board)
+    
+    return valid
+
 @app.route('/move', methods=['POST'])
 def http_move():
     global player, board, latest_move
@@ -252,7 +288,7 @@ def http_move():
 
     from_row, from_column = translate_notation(from_square)
     to_row, to_column = translate_notation(to_square)
-
+    
     # take the piece which want to move
     piece = board[from_row][from_column]
 
@@ -269,21 +305,11 @@ def http_move():
     if attack_friend_movement:
         return 'You cannot attack your friend', 422
 
+    # This code checks the movement rules for all different pieces.
+    # We can put it in a separate function, so we can easily reuse it in the king function!
+    valid = valid_movement(from_row, from_column, to_row, to_column, player, board)
 
-    if piece[0] == 'p':
-        valid_movement = pawn(from_row, from_column, to_row, to_column, player, board)
-    elif piece[0] == 'h':
-        valid_movement = horse(from_row, from_column, to_row, to_column, board)
-    elif piece[0] == 'r':
-        valid_movement = rook(from_row, from_column, to_row, to_column, board)
-    elif piece[0] == 'b':
-        valid_movement = bishop(from_row, from_column, to_row, to_column, board)
-    elif piece[0] == 'q':
-        valid_movement = queen(from_row, from_column, to_row, to_column, board)
-    elif piece[0] == 'k':
-        valid_movement = king(from_row, from_column, to_row, to_column, board)
-    
-    if valid_movement:
+    if valid:
         board[from_row][from_column] = None
         board[to_row][to_column] = piece
         # player: The color of the player whose turn it is now. This should be black if it was white before, and white if it was black before.
