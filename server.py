@@ -51,7 +51,7 @@ def translate_notation(board_square):
 
     return row, column
 
-def king(from_row, from_column, to_row, to_column, player, board):
+def king(from_row, from_column, to_row, to_column, board):
     right = to_row == from_row and to_column == from_column + 1
     bottom_right = to_row == from_row + 1 and to_column == from_column + 1
     bottom = to_row == from_row + 1 and to_column == from_column
@@ -68,12 +68,8 @@ def king(from_row, from_column, to_row, to_column, player, board):
                 # If the piece is an enemy.
                 king_color = board[from_row][from_column][1]
                 if piece is not None and piece[1] != king_color:
-                    if player == 'white':
-                        other_player = 'black'
-                    else:
-                        other_player = 'white'
                     # If the enemy can attack the king.
-                    can_attack_king = valid_movement(other_piece_row, other_piece_column, to_row, to_column, other_player, board)
+                    can_attack_king = valid_movement(other_piece_row, other_piece_column, to_row, to_column, board)
                     if can_attack_king:
                         return False
         # If nothing is returned inside the loop, we will get here, and that means no enemy can attack us.
@@ -161,7 +157,8 @@ def rook(from_row, from_column, to_row, to_column, board):
     else:
         return False
 
-def pawn(from_row, from_column, to_row, to_column, player, board):
+def pawn(from_row, from_column, to_row, to_column, board):
+    pawn_color = board[from_row][from_column][1]
     # for white
     move_one_row_up = to_row == from_row - 1
     # for black:
@@ -175,7 +172,7 @@ def pawn(from_row, from_column, to_row, to_column, player, board):
     row_black_before_move = 1
 
     ### rules for white pawn
-    if player == 'white':
+    if pawn_color == 'w':
         # if white pawn is at the first step
         empty_between = board[row_white_before_move - 1][to_column] == None
         if (from_row == row_white_before_move and to_row == row_white_before_move - 2 and
@@ -188,8 +185,8 @@ def pawn(from_row, from_column, to_row, to_column, player, board):
 
         # Attacking the competitor (white attacking black)
         elif move_one_row_up and adjacent_column and not target_is_none:
-            # board[to_row][to_column][1] -> 'pw'; player -> 'white'
-            if board[to_row][to_column][1] != player[0]:
+            # board[to_row][to_column][1] -> 'pw'; pawn_color -> 'w'
+            if board[to_row][to_column][1] != pawn_color:
                 return True
         else:
             return False
@@ -197,7 +194,7 @@ def pawn(from_row, from_column, to_row, to_column, player, board):
     ### rules for black pawn:
     # else if player is black:
     # if black pawn is at the first step, can move two steps
-    if player == 'black':
+    if pawn_color == 'b':
         empty_between = board[row_black_before_move + 1][to_column] == None
         
         if (from_row == row_black_before_move and to_row == row_black_before_move + 2 and
@@ -210,8 +207,8 @@ def pawn(from_row, from_column, to_row, to_column, player, board):
 
         # Attacking the competitor (black attacking white)
         elif move_one_row_down and adjacent_column and not target_is_none:
-            # board[to_row][to_column][1] -> 'pb', player -> 'black'
-            if board[to_row][to_column][1] != player[0]:
+            # board[to_row][to_column][1] -> 'pb', pawn_color -> 'b'
+            if board[to_row][to_column][1] != pawn_color:
                 return True
         else:
             return False
@@ -245,12 +242,12 @@ def attack_friend(from_row, from_column, to_row, to_column, board):
 
 # This function checks if the piece at from_row/from_column can move to to_row/to_column, based on which type of piece it is.
 # It's the starting point of the most important and complex logic in the game.
-def valid_movement(from_row, from_column, to_row, to_column, player, board):
+def valid_movement(from_row, from_column, to_row, to_column, board):
     # We don't have the piece variable in here but we can easily create it again.
     piece = board[from_row][from_column]
 
     if piece[0] == 'p':
-        valid = pawn(from_row, from_column, to_row, to_column, player, board)
+        valid = pawn(from_row, from_column, to_row, to_column, board)
     elif piece[0] == 'h':
         valid = horse(from_row, from_column, to_row, to_column, board)
     elif piece[0] == 'r':
@@ -260,7 +257,7 @@ def valid_movement(from_row, from_column, to_row, to_column, player, board):
     elif piece[0] == 'q':
         valid = queen(from_row, from_column, to_row, to_column, board)
     elif piece[0] == 'k':
-        valid = king(from_row, from_column, to_row, to_column, player, board)
+        valid = king(from_row, from_column, to_row, to_column, board)
     
     return valid
 
@@ -290,7 +287,7 @@ def http_move():
 
     # This code checks the movement rules for all different pieces.
     # We put it in a separate function, so that we can easily reuse it in the king function!
-    valid = valid_movement(from_row, from_column, to_row, to_column, player, board)
+    valid = valid_movement(from_row, from_column, to_row, to_column, board)
 
     if valid:
         board[from_row][from_column] = None

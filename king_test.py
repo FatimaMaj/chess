@@ -10,7 +10,7 @@ class KingTests(unittest.TestCase):
             [None, 'kw', None, None],  # 2
             [None, None, None, None],  # 3
         ]
-        is_valid = king(2, 1, 2, 2, 'white', board)
+        is_valid = king(2, 1, 2, 2, board)
         self.assertEqual(is_valid, True)
 
     def test_attack_bottom_right(self):
@@ -21,7 +21,7 @@ class KingTests(unittest.TestCase):
             [None, 'kw', None, None],  # 2
             [None, None, None, None],  # 3
         ]
-        is_valid = king(2, 1, 3, 2, 'white', board)
+        is_valid = king(2, 1, 3, 2, board)
         self.assertEqual(is_valid, True)
     
     def test_attack_bottom(self):
@@ -32,7 +32,7 @@ class KingTests(unittest.TestCase):
             [None, 'kw', None, None],  # 2
             [None, None, None, None],  # 3
         ]
-        is_valid = king(2, 1, 3, 1, 'white', board)
+        is_valid = king(2, 1, 3, 1, board)
         self.assertEqual(is_valid, True)
     
     def test_attack_bottom_left(self):
@@ -43,7 +43,7 @@ class KingTests(unittest.TestCase):
             [None, 'kw', None, None],  # 2
             [None, None, None, None],  # 3
         ]
-        is_valid = king(2, 1, 3, 0, 'white', board)
+        is_valid = king(2, 1, 3, 0, board)
         self.assertEqual(is_valid, True)
     
     def test_attack_left(self):
@@ -54,7 +54,7 @@ class KingTests(unittest.TestCase):
             [None, 'kw', None, None],  # 2
             [None, None, None, None],  # 3
         ]
-        is_valid = king(2, 1, 2, 0, 'white', board)
+        is_valid = king(2, 1, 2, 0, board)
         self.assertEqual(is_valid, True)
 
     def test_attack_top_left(self):
@@ -65,7 +65,7 @@ class KingTests(unittest.TestCase):
             [None, 'kw', None, None],  # 2
             [None, None, None, None],  # 3
         ]
-        is_valid = king(2, 1, 1, 0, 'white', board)
+        is_valid = king(2, 1, 1, 0, board)
         self.assertEqual(is_valid, True)
     
     def test_attack_top(self):
@@ -76,7 +76,7 @@ class KingTests(unittest.TestCase):
             [None, 'kw', None, None],  # 2
             [None, None, None, None],  # 3
         ]
-        is_valid = king(2, 1, 1, 1, 'white', board)
+        is_valid = king(2, 1, 1, 1, board)
         self.assertEqual(is_valid, True)
 
     def test_attack_top_right(self):
@@ -87,7 +87,7 @@ class KingTests(unittest.TestCase):
             [None, 'kw', None, None],  # 2
             [None, None, None, None],  # 3
         ]
-        is_valid = king(2, 1, 1, 2, 'white', board)
+        is_valid = king(2, 1, 1, 2, board)
         self.assertEqual(is_valid, True)
 
     def test_horse_attack_king(self):
@@ -98,7 +98,7 @@ class KingTests(unittest.TestCase):
             [None, 'kw', None, None],  # 2
             [None, 'hb', None, None],  # 3
         ]
-        is_valid = king(2, 1, 1, 2, 'white', board)
+        is_valid = king(2, 1, 1, 2, board)
         self.assertEqual(is_valid, False)
     
     def test_horse_pawn_attack_king(self):
@@ -109,7 +109,7 @@ class KingTests(unittest.TestCase):
             [None, 'kb', None, 'pw'],  # 2
             [None, 'hw', None, None],  # 3
         ]
-        is_valid = king(2, 1, 1, 2, 'black', board)
+        is_valid = king(2, 1, 1, 2, board)
         self.assertEqual(is_valid, False)
     
     def test_one_of_two_can_attack_king(self):
@@ -120,7 +120,7 @@ class KingTests(unittest.TestCase):
             [None, 'kb', None, None],  # 2
             [None, 'hw', None, 'pw'],  # 3
         ]
-        is_valid = king(2, 1, 1, 2, 'black', board)
+        is_valid = king(2, 1, 1, 2, board)
         self.assertEqual(is_valid, False)
     
     def test_multiple_enemy_without_attacking_king(self):
@@ -131,5 +131,5 @@ class KingTests(unittest.TestCase):
             [None, 'kb', None, None],  # 2
             ['hw', None, None, 'pw'],  # 3
         ]
-        is_valid = king(2, 1, 1, 2, 'black', board)
+        is_valid = king(2, 1, 1, 2, board)
         self.assertEqual(is_valid, True)

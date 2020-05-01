@@ -10,7 +10,7 @@ class PawnTests(unittest.TestCase):
             [None, 'pw', None, None],  # 2
             [None, None, None, None],  # 3
         ]
-        valid = pawn(2, 1, 0, 1,'white', board)
+        valid = pawn(2, 1, 0, 1, board)
         self.assertEqual(valid, True)
 
     def test_white_attack_competitor(self):
@@ -21,7 +21,7 @@ class PawnTests(unittest.TestCase):
             [None, 'pw', None, None],  # 2
             [None, None, None, None],  # 3
         ]
-        valid = pawn(2, 1, 1, 2,'white', board)
+        valid = pawn(2, 1, 1, 2, board)
         self.assertEqual(valid, True)
 
     def test_white_attack_friend(self):
@@ -32,7 +32,7 @@ class PawnTests(unittest.TestCase):
             [None, 'pw', None, None],  # 2
             [None, None, None, None],  # 3
         ]
-        valid = pawn(2, 1, 1, 2,'black', board)
+        valid = pawn(2, 1, 1, 2, board)
         self.assertEqual(valid, False)
     
     def test_white_pawn_backwards(self):
@@ -43,7 +43,7 @@ class PawnTests(unittest.TestCase):
             [None, 'pw', None, None],  # 2
             [None, None, None, None],  # 3
         ]
-        valid = pawn(2, 1, 3, 1, 'white', board)
+        valid = pawn(2, 1, 3, 1, board)
         self.assertEqual(valid, False)
     
     def test_white_pawn_two_steps_not_straight(self):
@@ -54,7 +54,7 @@ class PawnTests(unittest.TestCase):
             [None, 'pw', None, None],  # 2
             [None, None, None, None],  # 3
         ]
-        valid = pawn(2, 1, 0, 3, 'white', board)
+        valid = pawn(2, 1, 0, 3, board)
         self.assertEqual(valid, False)
     
     def test_black_pawn_two_steps_not_straight(self):
@@ -65,7 +65,7 @@ class PawnTests(unittest.TestCase):
             [None, None, None, None],  # 2
             [None, None, None, None],  # 3
         ]
-        valid = pawn(1, 1, 3, 3, 'black', board)
+        valid = pawn(1, 1, 3, 3, board)
         self.assertEqual(valid, False)
     
     def test_black_pawn_one_step(self):
@@ -78,7 +78,7 @@ class PawnTests(unittest.TestCase):
             [None, None, None, None],  # 4
             [None, 'hw', None, None],  # 5
         ]
-        valid = pawn(1, 1, 2, 1, 'black', board)
+        valid = pawn(1, 1, 2, 1, board)
         self.assertEqual(valid, True)
     
     def test_black_pawn_two_steps(self):
@@ -91,5 +91,5 @@ class PawnTests(unittest.TestCase):
             [None, None, None, None],  # 4
             [None, 'hw', None, None],  # 5
         ]
-        valid = pawn(1, 1, 3, 1, 'black', board)
+        valid = pawn(1, 1, 3, 1, board)
         self.assertEqual(valid, True)
