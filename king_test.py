@@ -1,7 +1,7 @@
 import unittest
 from server import king
 
-class KingTest(unittest.TestCase):
+class KingTests(unittest.TestCase):
     def test_attack_right_side(self):
         board = [
             # 0     1     2     3
@@ -133,5 +133,3 @@ class KingTest(unittest.TestCase):
         ]
         is_valid = king(2, 1, 1, 2, 'black', board)
         self.assertEqual(is_valid, True)
-
-unittest.main()

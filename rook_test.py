@@ -2,7 +2,7 @@
 import unittest
 from server import rook
 
-class ChessTest(unittest.TestCase):
+class RookTests(unittest.TestCase):
     def test_invalid_horizontal_movement_jump_from_piece(self):
         board = [
             # 0     1     2     3
@@ -46,6 +46,3 @@ class ChessTest(unittest.TestCase):
         ]
         is_valid = rook(3, 0, 0, 0, board)
         self.assertEqual(is_valid, True)
-
-        
-unittest.main()

@@ -1,7 +1,6 @@
 import unittest
-from server import attack_friend, bishop #translate_notation, http_move, attack_friend, pawn
+from server import bishop
 
-    
 class BishopTests(unittest.TestCase):
     def test_nobody_in_the_way(self):
         board = [
@@ -69,5 +68,3 @@ class BishopTests(unittest.TestCase):
         ]
         is_valid = bishop(0, 3, 0, 0, board)
         self.assertEqual(is_valid, False)
-
-unittest.main()

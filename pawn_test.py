@@ -1,9 +1,7 @@
 import unittest
 from server import pawn
 
-
-class ChessTest(unittest.TestCase):
-
+class PawnTests(unittest.TestCase):
     def test_pawn_two_steps_forward(self):
         board = [
             # 0     1     2     3
@@ -95,5 +93,3 @@ class ChessTest(unittest.TestCase):
         ]
         valid = pawn(1, 1, 3, 1, 'black', board)
         self.assertEqual(valid, True)
-
-unittest.main()

@@ -1,8 +1,7 @@
 import unittest
 from server import queen
 
-class QueenTest(unittest.TestCase):
-
+class QueenTests(unittest.TestCase):
     def test_queen_as_rook(self):
         board = [
             # 0     1     2     3
@@ -24,4 +23,3 @@ class QueenTest(unittest.TestCase):
         ]
         is_valid = queen(3, 0, 0, 3, board)
         self.assertEqual(is_valid, True)
-unittest.main()

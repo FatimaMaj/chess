@@ -1,0 +1,12 @@
+{
+    "python.testing.unittestArgs": [
+        "--verbose",
+        "--start-directory",
+        ".",
+        "--pattern",
+        "*_test.py"
+    ],
+    "python.testing.pytestEnabled": false,
+    "python.testing.nosetestsEnabled": false,
+    "python.testing.unittestEnabled": true
+}
