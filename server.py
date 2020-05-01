@@ -279,9 +279,6 @@ def valid_movement(from_row, from_column, to_row, to_column, player, board):
 def http_move():
     global player, board, latest_move
 
-    attack_friend_movement = False
-    valid_movement = False
-
     # These two lines get the "from" and "to" parameters from the URL.
     from_square = request.args['from']
     to_square = request.args['to']
