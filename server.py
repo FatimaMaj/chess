@@ -245,6 +245,10 @@ def attack_friend(from_row, from_column, to_row, to_column, board):
 def valid_movement(from_row, from_column, to_row, to_column, board):
     # We don't have the piece variable in here but we can easily create it again.
     piece = board[from_row][from_column]
+    if board[from_row][from_column] == board[to_row][to_column]:
+        return False
+    else: 
+        return True
 
     if piece[0] == 'p':
         valid = pawn(from_row, from_column, to_row, to_column, board)
