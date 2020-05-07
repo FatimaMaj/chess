@@ -13,6 +13,7 @@ function createChessboard() {
         for (let col = 0; col < 8; col++) {
             const td = document.createElement('td');
             td.className = 'square';
+            td.dataset.position = position(row, col);
             tr.append(td);
 
             const button = document.createElement('button');
@@ -189,6 +190,9 @@ async function handleResponse(response, message) {
 function handleNewState(state) {
     document.getElementById('player-color').textContent = capitalize(state.player);
     fillChessboard(state.board);
+    if (state.latest_to_square) {
+        highlightSquares([state.latest_from_square, state.latest_to_square]);
+    }
 }
 
 function showMessage(text) {
@@ -201,6 +205,18 @@ function onShowPositionsChange(show) {
 
 function capitalize(text) {
     return text[0].toUpperCase() + text.slice(1);
+}
+
+function highlightSquares(positions) {
+    const squares = Array.from(document.querySelectorAll('.square'));
+    squares.forEach(square => {
+        if (positions.includes(square.dataset.position)) {
+            square.classList.add('highlighted');
+        }
+        else {
+            square.classList.remove('highlighted');
+        }
+    })
 }
 
 async function start() {
