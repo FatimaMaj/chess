@@ -123,7 +123,7 @@ class KingTests(unittest.TestCase):
         is_valid = king(2, 1, 1, 2, board)
         self.assertEqual(is_valid, False)
     
-    def test_multiple_enemy_without_attacking_king(self):
+    def test_king_cannot_move_to_attacking_place(self):
         board = [
             # 0     1     2     3
             ['hw', None, None, None],  # 0
