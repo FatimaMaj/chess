@@ -103,9 +103,19 @@ body {
     background-color: hsl(40, 100%, 85%);
 }
 
+.row:nth-child(odd) .square:nth-child(odd).highlighted,
+.row:nth-child(even) .square:nth-child(even).highlighted {
+    background-color: hsl(0, 75%, 75%);
+}
+
 .row:nth-child(odd) .square:nth-child(even),
 .row:nth-child(even) .square:nth-child(odd) {
     background-color: hsl(40, 50%, 65%);
+}
+
+.row:nth-child(odd) .square:nth-child(even).highlighted,
+.row:nth-child(even) .square:nth-child(odd).highlighted {
+    background-color: hsl(0, 75%, 70%);
 }
 
 .position-label {

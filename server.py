@@ -5,9 +5,13 @@ import time
 
 app = Flask(__name__)
 
+# We use these variables to keep track of the latest squares that a player moved from/to, so that we can highlight them in the browser.
+latest_from_square = None
+latest_to_square = None
+
 # We use this variable to keep track of when the latest move was made.
 # It's only needed to figure out when to send changes to the browser, and save bandwidth when nothing has changed.
-latest_move = time.time()
+latest_move_time = time.time()
 
 # This variable keeps track of which player's turn it is, so we know which pieces can be moved.
 player = 'white'
@@ -267,7 +271,7 @@ def valid_movement(from_row, from_column, to_row, to_column, board):
 
 @app.route('/move', methods=['POST'])
 def http_move():
-    global player, board, latest_move
+    global player, board, latest_from_square, latest_to_square, latest_move_time
 
     # These two lines get the "from" and "to" parameters from the URL.
     from_square = request.args['from']
@@ -304,28 +308,35 @@ def http_move():
             player = 'white'
 
         # The purpose of "latest_move" variable is described at the top of the file.
-        latest_move = time.time()
+        latest_move_time = time.time()
+
+        # Update the latest from/to squares so that we can highlight them in the browser.
+        latest_from_square = from_square
+        latest_to_square = to_square
     else: 
         return 'Invalid Movement', 422
 
     return {
         'player': player,
-        'board': board
+        'board': board,
+        'latest_from_square': latest_from_square,
+        'latest_to_square': latest_to_square
     }
 
 # The state function is retrieved every second by the client (through polling) so that both players see each other's moves.
 @app.route('/state')
 def http_state():
     if 'since' in request.args:
-        latest_poll = float(request.args['since'])
+        latest_poll_time = float(request.args['since'])
     else:
-        latest_poll = None
+        latest_poll_time = None
 
-    if latest_poll is None or latest_move >= latest_poll:
+    if latest_poll_time is None or latest_move_time >= latest_poll_time:
         return {
             'player': player,
             'board': board,
-            'changed': latest_move
+            'latest_from_square': latest_from_square,
+            'latest_to_square': latest_to_square
         }
     else:
         return 'State has not changed', 304
