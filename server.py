@@ -250,24 +250,22 @@ def valid_movement(from_row, from_column, to_row, to_column, board):
     # We don't have the piece variable in here but we can easily create it again.
     piece = board[from_row][from_column]
     if board[from_row][from_column] == board[to_row][to_column]:
-        return False
+        return Fasle
     else: 
-        return True
-
-    if piece[0] == 'p':
-        valid = pawn(from_row, from_column, to_row, to_column, board)
-    elif piece[0] == 'h':
-        valid = horse(from_row, from_column, to_row, to_column, board)
-    elif piece[0] == 'r':
-        valid = rook(from_row, from_column, to_row, to_column, board)
-    elif piece[0] == 'b':
-        valid = bishop(from_row, from_column, to_row, to_column, board)
-    elif piece[0] == 'q':
-        valid = queen(from_row, from_column, to_row, to_column, board)
-    elif piece[0] == 'k':
-        valid = king(from_row, from_column, to_row, to_column, board)
+        if piece[0] == 'p':
+            valid = pawn(from_row, from_column, to_row, to_column, board)
+        elif piece[0] == 'h':
+            valid = horse(from_row, from_column, to_row, to_column, board)
+        elif piece[0] == 'r':
+            valid = rook(from_row, from_column, to_row, to_column, board)
+        elif piece[0] == 'b':
+            valid = bishop(from_row, from_column, to_row, to_column, board)
+        elif piece[0] == 'q':
+            valid = queen(from_row, from_column, to_row, to_column, board)
+        elif piece[0] == 'k':
+            valid = king(from_row, from_column, to_row, to_column, board)
     
-    return valid
+        return valid
 
 @app.route('/move', methods=['POST'])
 def http_move():
