@@ -81,7 +81,10 @@ body {
 
 .square-button {
     position: relative;
-    display: block;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
     border: 0.5vmin solid transparent;
     color: inherit;
     background-color: transparent;
@@ -150,4 +153,8 @@ html:not(.show-positions) .square-button:not(.from):not(.to):not(:enabled) .posi
 
 .piece.black {
     filter: hue-rotate(180deg) brightness(0.5);
+}
+
+.piece.pawn {
+    width: 80%;
 }

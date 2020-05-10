@@ -104,6 +104,7 @@ function fillChessboard(rows) {
                     const img = document.createElement('img');
                     img.classList.add('piece');
                     img.classList.add(pieceColor(shorthand));
+                    img.classList.add(pieceName(shorthand));
                     img.src = '/static/images/' + pieceName(shorthand) + '.svg';
                     parent.children[row].children[col].firstChild.append(img);
                 }
