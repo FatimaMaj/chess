@@ -1,0 +1,9 @@
+{
+  "scripts": {
+    "start": "npx babel --watch static-src --out-dir static --presets react-app/prod"
+  },
+  "dependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-react-app": "^3.1.2"
+  }
+}

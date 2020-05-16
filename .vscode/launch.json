@@ -5,6 +5,13 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "JavaScript: React",
+            "type": "node",
+            "request": "launch",
+            "runtimeExecutable": "npm",
+            "runtimeArgs": ["start"]
+        },
+        {
             "name": "Python: Current File",
             "type": "python",
             "request": "launch",
@@ -25,6 +32,12 @@
 				"--no-debugger",
                 "--no-reload"
             ]
+        }
+    ],
+    "compounds": [
+        {
+            "name": "Flask and React",
+            "configurations": ["Python: Flask", "JavaScript: React"]
         }
     ]
 }
